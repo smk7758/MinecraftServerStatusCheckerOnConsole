@@ -1,9 +1,7 @@
 package com.github.smk7758.MinecraftServerStatusAPI.StatusResponseSet;
 
-import java.util.List;
-
-public class ResponseForBungeeCord extends Response {
-	private DescriptionForBungeeCord description;
+public class StatusResponseForSpigot_1_8_x extends StatusResponse {
+	private String description;
 	private Players players;
 	private Version version;
 	private String favicon;
@@ -13,8 +11,8 @@ public class ResponseForBungeeCord extends Response {
 	 * @return description.
 	 */
 	@Override
-	public DescriptionForBungeeCord getDescription() {
-		return description;
+	public Description getDescription() {
+		return new Description(description);
 	}
 
 	/**
@@ -52,35 +50,5 @@ public class ResponseForBungeeCord extends Response {
 	@Override
 	public void setTime(int time) {
 		this.time = time;
-	}
-
-	public class DescriptionForBungeeCord extends Description {
-		List<Extra> extra;
-
-		@Override
-		/**
-		 * @return description text(MOTD).
-		 */
-		public String getText() {
-			String text = "";
-			for (Extra extra_item : extra) {
-				text += extra_item.getText() + System.lineSeparator();
-			}
-			return text;
-		}
-	}
-
-	public class Extra {
-		String text;
-		ClickEvent clickEvent;
-
-		public String getText() {
-			return text;
-		}
-	}
-
-	public class ClickEvent {
-		String action;
-		String value;
 	}
 }

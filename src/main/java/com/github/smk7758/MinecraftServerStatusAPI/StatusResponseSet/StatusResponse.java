@@ -4,10 +4,10 @@ import java.net.InetSocketAddress;
 import java.util.List;
 
 import com.github.smk7758.MinecraftServerStatusAPI.StatusConnection;
-import com.github.smk7758.MinecraftServerStatusAPI.StatusOutputter.JsonTypes;
+import com.github.smk7758.MinecraftServerStatusAPI.StatusConverter.JsonTypes;
 import com.github.smk7758.MinecraftServerStatusAPI.StatusResponseConnectionInterface;
 
-public abstract class Response implements StatusResponseConnectionInterface {
+public abstract class StatusResponse implements StatusResponseConnectionInterface {
 	protected String response_text;
 	protected int protocol_version;
 	protected int timeout;

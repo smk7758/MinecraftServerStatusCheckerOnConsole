@@ -4,18 +4,18 @@ import java.io.IOException;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.github.smk7758.MinecraftServerStatusAPI.StatusResponseSet.Response;
-import com.github.smk7758.MinecraftServerStatusAPI.StatusResponseSet.ResponseForBungeeCord;
-import com.github.smk7758.MinecraftServerStatusAPI.StatusResponseSet.ResponseForSpigot_1_8_x;
-import com.github.smk7758.MinecraftServerStatusAPI.StatusResponseSet.ResponseForVanilla;
+import com.github.smk7758.MinecraftServerStatusAPI.StatusResponseSet.StatusResponse;
+import com.github.smk7758.MinecraftServerStatusAPI.StatusResponseSet.StatusResponseForBungeeCord;
+import com.github.smk7758.MinecraftServerStatusAPI.StatusResponseSet.StatusResponseForSpigot_1_8_x;
+import com.github.smk7758.MinecraftServerStatusAPI.StatusResponseSet.StatusResponseForVanilla;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
-public class StatusOutputter {
-	private StatusOutputter() {
+public class StatusConverter {
+	private StatusConverter() {
 	}
 
 	/**
@@ -32,27 +32,31 @@ public class StatusOutputter {
 	 * @throws IOException some connection error.
 	 * @throws StatusResponseFormatException If the string is invalid.
 	 */
-	public static Response receiveResponse(StatusConnection status_connection)
+	public static StatusResponse convertStatusResponse(StatusConnection status_connection)
 			throws IOException, StatusResponseFormatException {
-		Response response = null;
+		StatusResponse status_response = null;
 		try {
 			switch (getJsonTypes(status_connection)) {
 				case Vanilla:
-					response = new Gson().fromJson(status_connection.getResponseText(), ResponseForVanilla.class);
-					response.setLoadJsonType(JsonTypes.Vanilla);
+					status_response = new Gson().fromJson(status_connection.getResponseText(),
+							StatusResponseForVanilla.class);
+					status_response.setLoadJsonType(JsonTypes.Vanilla);
 					break;
 				case BungeeCord:
-					response = new Gson().fromJson(status_connection.getResponseText(), ResponseForBungeeCord.class);
-					response.setLoadJsonType(JsonTypes.BungeeCord);
+					status_response = new Gson().fromJson(status_connection.getResponseText(),
+							StatusResponseForBungeeCord.class);
+					status_response.setLoadJsonType(JsonTypes.BungeeCord);
 					break;
 				case Spigot_1_8_x:
-					response = new Gson().fromJson(status_connection.getResponseText(), ResponseForSpigot_1_8_x.class);
-					response.setLoadJsonType(JsonTypes.Spigot_1_8_x);
+					status_response = new Gson().fromJson(status_connection.getResponseText(),
+							StatusResponseForSpigot_1_8_x.class);
+					status_response.setLoadJsonType(JsonTypes.Spigot_1_8_x);
 					break;
 				default:
 					// Vanilla (I can write more better here but I did not.)
-					response = new Gson().fromJson(status_connection.getResponseText(), ResponseForVanilla.class);
-					response.setLoadJsonType(JsonTypes.Vanilla);
+					status_response = new Gson().fromJson(status_connection.getResponseText(),
+							StatusResponseForVanilla.class);
+					status_response.setLoadJsonType(JsonTypes.Vanilla);
 					break;
 			}
 		} catch (JsonSyntaxException ex) {
@@ -61,9 +65,9 @@ public class StatusOutputter {
 			// "Can't convert string to Response class.");
 		}
 
-		response.setConnection(status_connection);
+		status_response.setConnection(status_connection);
 
-		return response;
+		return status_response;
 	}
 
 	@Deprecated
@@ -72,21 +76,21 @@ public class StatusOutputter {
 	 * @return ResponseInterface with a proper type.
 	 * @throws StatusResponseFormatException If the string is invalid.
 	 */
-	public static Response convertResponse(String response_string) throws StatusResponseFormatException {
-		Response response = null;
+	public static StatusResponse convertResponse(String response_string) throws StatusResponseFormatException {
+		StatusResponse statusresponse = null;
 		JsonTypes json_types = getJsonTypes(response_string);
 		try {
 			if (json_types.equals(JsonTypes.Vanilla)) {
-				response = new Gson().fromJson(response_string, ResponseForVanilla.class);
+				statusresponse = new Gson().fromJson(response_string, StatusResponseForVanilla.class);
 			} else if (json_types.equals(JsonTypes.BungeeCord)) {
-				response = new Gson().fromJson(response_string, ResponseForBungeeCord.class);
+				statusresponse = new Gson().fromJson(response_string, StatusResponseForBungeeCord.class);
 			} else if (json_types.equals(JsonTypes.Spigot_1_8_x)) {
-				response = new Gson().fromJson(response_string, ResponseForSpigot_1_8_x.class);
+				statusresponse = new Gson().fromJson(response_string, StatusResponseForSpigot_1_8_x.class);
 			}
 		} catch (JsonSyntaxException ex) {
 			throw new StatusResponseFormatException(response_string, "Can't convert string to Response class.");
 		}
-		return response;
+		return statusresponse;
 	}
 
 	/**

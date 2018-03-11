@@ -1,7 +1,10 @@
 package com.github.smk7758.MinecraftServerStatusAPI.StatusResponseSet;
 
-public class ResponseForSpigot_1_8_x extends Response {
-	private String description;
+/**
+ * the class from JSON for ServerStatusResponse.
+ */
+public class StatusResponseForVanilla extends StatusResponse {
+	private Description description;
 	private Players players;
 	private Version version;
 	private String favicon;
@@ -12,7 +15,7 @@ public class ResponseForSpigot_1_8_x extends Response {
 	 */
 	@Override
 	public Description getDescription() {
-		return new Description(description);
+		return description;
 	}
 
 	/**

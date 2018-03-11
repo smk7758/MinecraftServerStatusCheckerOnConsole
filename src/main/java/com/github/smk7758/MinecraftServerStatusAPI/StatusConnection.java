@@ -26,7 +26,7 @@ public class StatusConnection implements AutoCloseable, StatusResponseConnection
 	 * @throws IOException some connection error.
 	 */
 	public StatusConnection(InetSocketAddress host) throws IOException {
-		initialize(host, this.timeout, this.protocol_version);
+		initialize(host, this.protocol_version, this.timeout);
 	}
 
 	/**
@@ -35,8 +35,8 @@ public class StatusConnection implements AutoCloseable, StatusResponseConnection
 	 * @param protocol_version each version of Minecraft has the different one.
 	 * @throws IOException some connection error.
 	 */
-	public StatusConnection(InetSocketAddress host, int timeout, int protocol_version) throws IOException {
-		initialize(host, timeout, protocol_version);
+	public StatusConnection(InetSocketAddress host, int protocol_version, int timeout) throws IOException {
+		initialize(host, protocol_version, timeout);
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class StatusConnection implements AutoCloseable, StatusResponseConnection
 	 */
 	@Deprecated
 	public StatusConnection(String address, short port) throws IOException {
-		initialize(address, port, this.timeout, this.protocol_version);
+		initialize(address, port, this.protocol_version, this.timeout);
 	}
 
 	/**
@@ -59,8 +59,8 @@ public class StatusConnection implements AutoCloseable, StatusResponseConnection
 	 * @deprecated Can't get exception properly.
 	 */
 	@Deprecated
-	public StatusConnection(String address, short port, int timeout, int protocol_version) throws IOException {
-		initialize(address, port, timeout, protocol_version);
+	public StatusConnection(String address, short port, int protocol_version, int timeout) throws IOException {
+		initialize(address, port, protocol_version, timeout);
 	}
 
 	/**
@@ -69,10 +69,10 @@ public class StatusConnection implements AutoCloseable, StatusResponseConnection
 	 * @param protocol_version each version of Minecraft has the different one.
 	 * @throws IOException some connection error.
 	 */
-	private void initialize(InetSocketAddress host, int timeout, int protocol_version) throws IOException {
+	private void initialize(InetSocketAddress host, int protocol_version, int timeout) throws IOException {
 		this.host = host;
-		this.timeout = timeout;
 		this.protocol_version = protocol_version;
+		this.timeout = timeout;
 		socket = new Socket();
 		socket.setSoTimeout(timeout); // Input block millisecond.
 		socket.connect(host, timeout); // connect to host(wait untill timeout when no connect);
@@ -91,9 +91,9 @@ public class StatusConnection implements AutoCloseable, StatusResponseConnection
 	 * @deprecated Can't get exception properly.
 	 */
 	@Deprecated
-	private void initialize(String address, short port, int timeout, int protocol_version) throws IOException {
+	private void initialize(String address, short port, int protocol_version, int timeout) throws IOException {
 		host = new InetSocketAddress(address, port);
-		initialize(host, timeout, protocol_version);
+		initialize(host, protocol_version, timeout);
 	}
 
 	/**

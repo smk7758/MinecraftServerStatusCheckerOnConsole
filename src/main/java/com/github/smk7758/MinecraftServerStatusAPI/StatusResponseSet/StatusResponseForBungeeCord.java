@@ -1,10 +1,9 @@
 package com.github.smk7758.MinecraftServerStatusAPI.StatusResponseSet;
 
-/**
- * the class from JSON for ServerStatusResponse.
- */
-public class ResponseForVanilla extends Response {
-	private Description description;
+import java.util.List;
+
+public class StatusResponseForBungeeCord extends StatusResponse {
+	private DescriptionForBungeeCord description;
 	private Players players;
 	private Version version;
 	private String favicon;
@@ -14,7 +13,7 @@ public class ResponseForVanilla extends Response {
 	 * @return description.
 	 */
 	@Override
-	public Description getDescription() {
+	public DescriptionForBungeeCord getDescription() {
 		return description;
 	}
 
@@ -53,5 +52,35 @@ public class ResponseForVanilla extends Response {
 	@Override
 	public void setTime(int time) {
 		this.time = time;
+	}
+
+	public class DescriptionForBungeeCord extends Description {
+		List<Extra> extra;
+
+		@Override
+		/**
+		 * @return description text(MOTD).
+		 */
+		public String getText() {
+			String text = "";
+			for (Extra extra_item : extra) {
+				text += extra_item.getText() + System.lineSeparator();
+			}
+			return text;
+		}
+	}
+
+	public class Extra {
+		String text;
+		ClickEvent clickEvent;
+
+		public String getText() {
+			return text;
+		}
+	}
+
+	public class ClickEvent {
+		String action;
+		String value;
 	}
 }
