@@ -4,8 +4,9 @@
 	<artifactId>MinecraftServerStatusCheckerOnConsole</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
-		<maven.compiler.target>1.17</maven.compiler.target>
-		<maven.compiler.source>1.17</maven.compiler.source>
+		<java.version>1.１７</java.version>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>

@@ -1,6 +1,11 @@
 package com.github.smk7758.MinecraftServerStatusAPI;
 
 public class StatusResponseFormatException extends RuntimeException {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9132813255373846234L;
+
 	public StatusResponseFormatException() {
 		super();
 	}
